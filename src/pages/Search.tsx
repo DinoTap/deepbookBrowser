@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Search as SearchIcon, ArrowLeft, RotateCcw, MoreVertical, Star, Shield, Globe, Bot, Zap, TrendingUp, Github, Twitter, FileText, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search as SearchIcon, ArrowLeft, RotateCcw, MoreVertical, Star, Shield, Globe, Bot, Zap, TrendingUp, Github, Twitter, FileText, ExternalLink, Wallet, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
+import { useWallet } from '@/contexts/WalletContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -24,10 +25,18 @@ interface GeminiSearchResult {
 
 const Search = () => {
   const navigate = useNavigate();
+  const { wallet, isConnected, disconnectWallet } = useWallet();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<OrganicResult[] | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect to wallet setup if not connected
+  useEffect(() => {
+    if (!isConnected) {
+      navigate('/wallet');
+    }
+  }, [isConnected, navigate]);
 
   const handleBack = () => {
     navigate(-1);
@@ -35,6 +44,12 @@ const Search = () => {
 
   const handleRefresh = () => {
     window.location.reload();
+  };
+
+  const handleDisconnectWallet = () => {
+    disconnectWallet();
+    navigate('/wallet');
+    toast.success('Wallet disconnected');
   };
 
   const handleSearch = async () => {
@@ -451,14 +466,22 @@ Only return the JSON array, no other text.` }],
             <div className="flex items-center bg-gradient-to-r from-slate-700 to-slate-600 rounded-full border border-cyan-400/30 px-2 sm:px-4 py-1 sm:py-2 shadow-lg backdrop-blur-sm">
               <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 mr-1 sm:mr-2 flex-shrink-0" />
               <Globe className="h-3 w-3 sm:h-4 sm:w-4 text-cyan-400 mr-1 sm:mr-2 flex-shrink-0" />
-              <span className="text-xs sm:text-sm text-cyan-100 flex-1 font-mono truncate">https://search.deepbook.com</span>
+              <span className="text-xs sm:text-sm text-cyan-100 flex-1 font-mono truncate">
+                {wallet ? `${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}` : 'https://search.deepbook.com'}
+              </span>
               <Star className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-400 ml-1 sm:ml-2 flex-shrink-0" />
             </div>
           </div>
           
-          {/* Menu button */}
-          <Button variant="ghost" size="icon" className="h-6 w-6 sm:h-8 sm:w-8 text-cyan-300 hover:bg-cyan-400/20">
-            <MoreVertical className="h-3 w-3 sm:h-4 sm:w-4" />
+          {/* Wallet disconnect button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-6 w-6 sm:h-8 sm:w-8 text-cyan-300 hover:bg-cyan-400/20"
+            onClick={handleDisconnectWallet}
+            title="Disconnect Wallet"
+          >
+            <LogOut className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>
