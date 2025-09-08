@@ -182,7 +182,7 @@ const WalletSetup = () => {
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse"></div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 relative z-10">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
@@ -191,10 +191,10 @@ const WalletSetup = () => {
                 <Wallet className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+            <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
               DeepBook Wallet Setup
             </h1>
-            <p className="text-cyan-300 text-lg">
+            <p className="text-cyan-300 text-sm sm:text-lg">
               Create a new wallet or import an existing one to start searching
             </p>
           </div>
@@ -351,15 +351,15 @@ const WalletSetup = () => {
                 {/* Address */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-cyan-300">Wallet Address</label>
-                  <div className="flex items-center gap-2 p-3 bg-slate-700/50 rounded-lg border border-cyan-400/30">
-                    <code className="flex-1 text-white font-mono text-sm break-all">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 bg-slate-700/50 rounded-lg border border-cyan-400/30">
+                    <code className="flex-1 text-white font-mono text-xs sm:text-sm break-all min-w-0 w-full sm:w-auto">
                       {walletData.address}
                     </code>
                     <Button
                       size="sm"
                       variant="ghost"
                       onClick={() => copyToClipboard(walletData.address, 'Address')}
-                      className="text-cyan-400 hover:text-cyan-300"
+                      className="text-cyan-400 hover:text-cyan-300 h-8 w-8 p-0 flex-shrink-0"
                     >
                       {copiedField === 'Address' ? (
                         <Check className="w-4 h-4" />
@@ -373,16 +373,16 @@ const WalletSetup = () => {
                 {/* Private Key */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-cyan-300">Private Key</label>
-                  <div className="flex items-center gap-2 p-3 bg-slate-700/50 rounded-lg border border-cyan-400/30">
-                    <code className="flex-1 text-white font-mono text-sm break-all">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 bg-slate-700/50 rounded-lg border border-cyan-400/30">
+                    <code className="flex-1 text-white font-mono text-xs sm:text-sm break-all min-w-0 w-full sm:w-auto">
                       {showPrivateKey ? walletData.privateKey : '•'.repeat(66)}
                     </code>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-shrink-0">
                       <Button
                         size="sm"
                         variant="ghost"
                         onClick={() => setShowPrivateKey(!showPrivateKey)}
-                        className="text-cyan-400 hover:text-cyan-300"
+                        className="text-cyan-400 hover:text-cyan-300 h-8 w-8 p-0"
                       >
                         {showPrivateKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </Button>
@@ -390,7 +390,7 @@ const WalletSetup = () => {
                         size="sm"
                         variant="ghost"
                         onClick={() => copyToClipboard(walletData.privateKey, 'Private Key')}
-                        className="text-cyan-400 hover:text-cyan-300"
+                        className="text-cyan-400 hover:text-cyan-300 h-8 w-8 p-0"
                       >
                         {copiedField === 'Private Key' ? (
                           <Check className="w-4 h-4" />
@@ -406,16 +406,16 @@ const WalletSetup = () => {
                 {walletData.mnemonic && (
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-cyan-300">Mnemonic Phrase</label>
-                    <div className="flex items-center gap-2 p-3 bg-slate-700/50 rounded-lg border border-cyan-400/30">
-                      <code className="flex-1 text-white font-mono text-sm break-all">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 bg-slate-700/50 rounded-lg border border-cyan-400/30">
+                      <code className="flex-1 text-white font-mono text-xs sm:text-sm break-all min-w-0 w-full sm:w-auto">
                         {showMnemonic ? walletData.mnemonic : '•'.repeat(50)}
                       </code>
-                      <div className="flex gap-1">
+                      <div className="flex gap-1 flex-shrink-0">
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => setShowMnemonic(!showMnemonic)}
-                          className="text-cyan-400 hover:text-cyan-300"
+                          className="text-cyan-400 hover:text-cyan-300 h-8 w-8 p-0"
                         >
                           {showMnemonic ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </Button>
@@ -423,7 +423,7 @@ const WalletSetup = () => {
                           size="sm"
                           variant="ghost"
                           onClick={() => copyToClipboard(walletData.mnemonic!, 'Mnemonic')}
-                          className="text-cyan-400 hover:text-cyan-300"
+                          className="text-cyan-400 hover:text-cyan-300 h-8 w-8 p-0"
                         >
                           {copiedField === 'Mnemonic' ? (
                             <Check className="w-4 h-4" />
